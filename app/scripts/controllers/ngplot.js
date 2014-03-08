@@ -2,78 +2,40 @@
  * Created by colinc on 3/6/14.
  */
 'use strict';
-var testData = [
-    {"x": 1,
-        "y": 2,
-        "color": "red",
-        "size": 2},
-    {"x": 2,
-        "y": 1,
-        "color": "red",
-        "size": 1},
-    {"x": 1,
-        "y": 3,
-        "color": "blue",
-        "size": 2},
-    {"x": 2,
-        "y": 1,
-        "color": "blue",
-        "size": 3}
-];
-
 angular.module('dataDashboardApp')
-    .controller('TestCtrl', function ($scope) {
-        $scope.city = "Austin";
+    .controller('NgplotCtrl', function ($scope) {
     })
-    .directive('myCity', function () {
-        return{
-            controller: function ($scope) {
-            }
-        }
-    })
-    .directive('mySparkline', function () {
+    .directive('ngplot', function () {
         return {
             restrict: 'E',
             scope: {
-                city: '@city'
+                dataurl: '@dataurl'
             },
-            template: '<div class="sparkline"><h4>Weather for {{ city }}</h4></div>',
+            template: '<div class="ngplot"><h4>hello!</h4></div>',
             controller: [
                 '$scope',
                 '$http',
                 function ($scope, $http) {
-                    var url = "http://api.openweathermap.org/data/2.5/forecast/daily?mode=json&units=imperial&cnt=7&callback=JSON_CALLBACK&q="
-
-                    $scope.getTemp = function (city) {
+                    $scope.getData = function (dataurl) {
+                        console.log(dataurl);
                         $http({
-                            method: 'JSONP',
-                            url: url + city
-                        }).success(function (data) {
-                            var weather = [];
-                            angular.forEach(data.list, function (value) {
-                                weather.push(value);
-                            });
-                            $scope.weather = weather;
-                        });
+                            url: dataurl,
+                            method: "JSONP"
+                        })
+                            .success(function (data) {
+                            $scope.plotData = data;
+                        })
                     }
                 }
             ],
             link: function (scope, element, attrs) {
-                scope.getTemp(attrs.city);
-                scope.$watch('weather', function (newVal) {
-                    if (newVal) {
-                        var highs = [];
-                        var xLabs = [];
-                        angular.forEach(scope.weather, function (value) {
-                            highs.push(value.temp.max);
-                            xLabs.push(timestampToDate(value.dt));
-                        });
-                        chartGraph(element, highs, xLabs, attrs);
-                    }
+                scope.getData(attrs.dataurl);
+                scope.$watch('plotData', function (newVal) {
                 });
             }
         }
     });
+
 
 var timestampToDate = function (timestamp) {
     return (new Date(timestamp * 1000));

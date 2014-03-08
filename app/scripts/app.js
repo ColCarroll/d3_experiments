@@ -11,7 +11,7 @@ dashboardApp.config(function ($routeProvider) {
         )
             .when('/test', {
                 templateUrl: 'views/test.html',
-                controller: 'TestCtrl'
+                controller: 'NgplotCtrl'
             })
             .otherwise({
                 redirectTo: "/"
