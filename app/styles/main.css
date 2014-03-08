@@ -2,6 +2,8 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -77,3 +79,39 @@ body {
     border-bottom: 0;
   }
 }
+
+
+.grid-background {
+    fill: #ddd;
+}
+
+.grid line {
+    stroke: #fff;
+    stroke-width: 2px;
+}
+
+.grid .minor line {
+    stroke-opacity: 0.3;
+}
+
+.grid text {
+    display: none;
+}
+
+.axis line {
+    stroke: #000;
+}
+
+.axis path,
+.grid path {
+    display: none;
+}
+
+.plotLine {
+    fill: none;
+    stroke: #000;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+
