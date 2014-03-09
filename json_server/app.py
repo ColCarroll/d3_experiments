@@ -8,13 +8,15 @@ app = Flask(__name__)
 @app.route('/data')
 def random_data():
   colors = ["red", "green", "blue"]
+  colors = list("abcdefghijklmnopqrstuv")
   data = [{
     "x": 10 * random.random(),
     "y": 10 * random.random(),
     "c": random.sample(colors, 1)[0],
-    "size": random.randint(1,5)
+    "size": random.randint(1, 5),
+    "alpha": random.random(),
     }
-    for _ in range(10)]
+    for _ in range(500)]
 
   return jsonify(data)
 
