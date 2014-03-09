@@ -156,19 +156,23 @@ var chartPoints = function (data, opts, element) {
         .enter().append("circle")
         .attr("class", "dot")
         .attr("r", function (d) {
-            return d[opts.size] || 3.5;
+            return d[opts.size] || opts.size || 3.5;
         })
         .attr("cx", function (d) {
             return xScale(d[opts.x]);
         })
         .attr("cy", function (d) {
-            return yScale(d[opts.y]);
+            return yScale(d[opts.y]) || opts.y;
         })
         .style("opacity", function (d) {
-            return d[opts.alpha] || 1;
+            return d[opts.alpha] || opts.alpha || 1;
         })
         .style("fill", function (d) {
-            return color(d[opts.color]) || steelblue;
+            if (d.hasOwnProperty(opts.color)) {
+              return color(d[opts.color]);
+            } else if (opts.hasOwnProperty("color")) {
+                return opts.color;
+            } else { return "steelblue"; }
         });
 
     var legend = svg.selectAll(".legend")
