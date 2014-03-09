@@ -2,25 +2,6 @@
  * Created by colinc on 3/6/14.
  */
 'use strict';
-var testData = [
-    {"x": 1,
-        "y": 2,
-        "color": "red",
-        "size": 2},
-    {"x": 2,
-        "y": 1,
-        "color": "red",
-        "size": 1},
-    {"x": 1,
-        "y": 3,
-        "color": "blue",
-        "size": 2},
-    {"x": 2,
-        "y": 1,
-        "color": "blue",
-        "size": 3}
-];
-
 angular.module('dataDashboardApp')
     .controller('TestCtrl', function ($scope) {
         $scope.city = "Austin";

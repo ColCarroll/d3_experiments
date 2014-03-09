@@ -29,6 +29,7 @@
         <div data-ng-controller="HeaderController">
             <ul class="nav nav-pills pull-right">
                 <li data-ng-class="{ active: isActive('/')}"><a ng-href="#/">Home</a></li>
+                <li data-ng-class="{ active: isActive('/iris')}"><a ng-href="#/iris">Iris</a></li>
                 <li data-ng-class="{ active: isActive('/test')}"><a ng-href="#/test">Test</a></li>
             </ul>
             <h3 class="text-muted">Data Dashboard</h3>
@@ -50,6 +51,7 @@
 <script src="bower_components/jquery/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="bower_components/d3/d3.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <!-- endbower -->

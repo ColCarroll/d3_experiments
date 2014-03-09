@@ -13,6 +13,10 @@ dashboardApp.config(function ($routeProvider) {
                 templateUrl: 'views/test.html',
                 controller: 'NgplotCtrl'
             })
+            .when('/iris',{
+                templateUrl: 'views/iris.html',
+                controller: 'NgplotCtrl'
+            })
             .otherwise({
                 redirectTo: "/"
             });
