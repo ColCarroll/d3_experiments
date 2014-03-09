@@ -1,5 +1,6 @@
 import random
-from flask import Flask, jsonify, Response
+from flask import Flask, Response
+from flask_jsonpify import jsonify
 import json
 
 app = Flask(__name__)
@@ -15,8 +16,7 @@ def random_data():
     }
     for _ in range(10)]
 
-  return Response("JSON_CALLBACK({:s});".format(
-    json.dumps(data)), mimetype='application/json')
+  return jsonify(data)
 
 if __name__ == '__main__':
   app.run("127.0.0.1", port=5000, debug=True)

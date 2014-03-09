@@ -7,39 +7,63 @@ angular.module('dataDashboardApp')
     })
     .directive('ngplot', function () {
         return {
+            replace: true,
             restrict: 'E',
             scope: {
-                dataurl: '@dataurl'
             },
-            template: '<div class="ngplot"><h4>hello!</h4></div>',
             controller: [
                 '$scope',
                 '$http',
                 function ($scope, $http) {
                     $scope.getData = function (dataurl) {
-                        console.log(dataurl);
                         $http({
-                            url: dataurl,
+                            url: dataurl + "?callback=JSON_CALLBACK",
                             method: "JSONP"
                         })
                             .success(function (data) {
-                            $scope.plotData = data;
-                        })
+                                $scope.plotData = data;
+                            });
                     }
                 }
             ],
             link: function (scope, element, attrs) {
                 scope.getData(attrs.dataurl);
                 scope.$watch('plotData', function (newVal) {
+                    if (newVal) {
+                        scope.dataframe = {};
+                        angular.forEach(scope.plotData, function (dataPoint) {
+                            angular.forEach(dataPoint, function (value, key) {
+                                if (!(key in scope.dataframe)) {
+                                    scope.dataframe[key] = [];
+                                }
+                                scope.dataframe[key].push(value)
+                            })
+                        });
+                    }
+                    console.log(scope.dataframe);
                 });
             }
         }
+    })
+    .directive('geomline', function () {
+        return {
+            restrict: "E",
+            replace: true,
+            scope: {},
+            template: "<div> Hello </div>",
+            controller: [
+                '$scope',
+                function($scope) {
+                    $scope.dataurl = $scope.$parent.dataurl;
+                }
+            ],
+            link: function(scope, element, attrs) {
+                        console.log(scope.dataurl);
+            }
+        }
+
     });
 
-
-var timestampToDate = function (timestamp) {
-    return (new Date(timestamp * 1000));
-};
 
 var chartGraph = function (element, data, xLabs, opts) {
     var margin = {top: 20, right: 30, bottom: 30, left: 40},
