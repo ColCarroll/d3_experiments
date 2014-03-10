@@ -66,6 +66,13 @@ app.directive('geomPoint', function (dataframeService) {
 
 });
 
+var optsFallback = function(optName, object, opts, fallback){
+    if (object.hasOwnProperty(opts[optName])) {
+        return object[opts[optName]];
+    } else if (opts.hasOwnProperty(optName)) {
+        return opts[optName];
+    } else {return fallback}
+};
 
 var chartPoints = function (data, opts, element) {
     var margin = {top: 20, right: 30, bottom: 30, left: 40},
@@ -95,6 +102,11 @@ var chartPoints = function (data, opts, element) {
                 return d[opts.y]
             })).nice()
             .range([height, 0]),
+        sizeScale = d3.scale.linear()
+            .domain(d3.extent(data, function (d) {
+                return optsFallback("size", d, opts, 3.5);
+            })).nice()
+            .range([1, 10]),
         xTicks = 10,
         yTicks = 10;
 
@@ -156,21 +168,21 @@ var chartPoints = function (data, opts, element) {
         .enter().append("circle")
         .attr("class", "dot")
         .attr("r", function (d) {
-            return d[opts.size] || opts.size || 3.5;
+            return sizeScale(optsFallback("size",d,opts,3.5));
         })
         .attr("cx", function (d) {
             return xScale(d[opts.x]);
         })
         .attr("cy", function (d) {
-            return yScale(d[opts.y]) || opts.y;
+            return yScale(d[opts.y]);
         })
         .style("opacity", function (d) {
-            return d[opts.alpha] || opts.alpha || 1;
+            return optsFallback("alpha", d, opts, 1);
         })
         .style("fill", function (d) {
             if (d.hasOwnProperty(opts.color)) {
               return color(d[opts.color]);
-            } else if (opts.hasOwnProperty("color")) {
+            } else if (opts.hasOwnProperty("color") && opts["color"] != "color") {
                 return opts.color;
             } else { return "steelblue"; }
         });
